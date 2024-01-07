@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PageGroup</title>
+    <link rel="icon" type="image/png" href="dist/img/logo-small.png">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="dist/css/custom.css">
+    <style>
+        html,
+        body {
+            position: relative;
+            background-color: #002A54;
+            /* background: url("dist/img/simlation_bg.jpg"); */
+            background-repeat: no-repeat;
+            background-size: cover;
+            box-sizing: border-box;
+        }
+
+        /* div.adminForm {
+            position: relative;
+            width: 400px;
+            max-width: 490px;
+            height: 500px;
+            max-height: 550px;
+            border-radius: 14px;
+    
+            background: rgba(255, 255, 255, 0.5);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        } */
+
+        form.needs-validation {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: space-around;
+
+        }
+
+        input.admin_input {
+    background-color: transparent !important;
+    border-top: 0px;
+    color: white;
+    padding-left: 55px;
+    border-left: 0px;
+    border-right: 0px;
+    border-radius: 0px;
+    border-bottom: 0px solid white;
+}    .form-control::placeholder
+        {
+            color: #55718D;
+        }
+        .adminForm .btn-primary
+        {
+            border-radius: 2rem;
+            box-shadow: none;
+        }
+     #login_username , #login_password
+     {
+        position: relative;
+        color: white;
+     }
+     .userIcon, .userPass {
+    position: absolute;
+    bottom: 20px;
+    left: 23px;
+    font-size: 1.5rem;
+}
+div.overlay
+{
+    background-color: #002a548a;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.form-control.admin_input{
+    background-color: #001e3d !important;
+    height: 65px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+transition: background-color 600000s 0s, color 600000s 0s;
+}
+input[data-autocompleted] {
+background-color: transparent !important;
+}
+
+.login-img
+{
+    object-fit: cover;
+}
+
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini custom_scrollbar">
+    <div class="container-fluid w-100 d-flex justify-content-center align-items-center w-100 p-0" style="height: 100vh;">
+   <div class="row w-100 h-100 p-0">
+    <div class="col-md-6 position-relative p-0">
+        <div class="overlay"></div>
+        <img class="w-100 h-100 login-img" src="./dist/img/corporate.jpg" alt="" srcset="">
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-center p-0 ">
+        <div class="adminForm p-5 w-100 d-flex justify-content-center align-items-center flex-column">
+            <!-- <h3 class="text-center">SIMULATION</h3> -->
+            <img class="mb-5" src="./dist/img/logo.png" alt="" srcset="">
+            <form class="needs-validation w-75 h-100" novalidate>
+                <div class="form-row ">
+                    <div class="col-12 mb-3">
+                        <!-- <label for="login_username">Username</label> -->
+                        <input type="text" class="form-control admin_input" id="login_username" placeholder="Username" 
+                            value="" required >
+                            <i class="userIcon fas fa-user"></i>                            
+                        <div class="valid-feedback"></div>
+                    </div>
+                    <div class="col-12 mt-4 mb-3">
+                        <!-- <label for="login_password">Password</label> -->
+                        <input type="password" class="form-control admin_input position-relative" id="login_password"
+                            placeholder="Password" value="" required>
+                            <i class="userPass fas fa-eye"></i>
+                        <div class="valid-feedback"></div>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-4" type="submit">LOGIN</button>
+            </form>
+        </div>
+    </div>
+   </div>
+
+    </div>
+    <script src="config.js"></script>
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="dist/js/adminlte.js"></script>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            console.info("error");
+                        }
+                        else {
+                            console.info("no error");
+                            let userName = $('input#login_username').val();
+                            let userPass = $('input#login_password').val();
+                            $.ajax({
+                                type: "post",
+                                url: serverKey + "admin/login",
+                                async: false,
+                                data: JSON.stringify({
+                                    username: userName,
+                                    password: userPass
+                                }),
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    // console.info({ data });
+                                    localStorage.setItem("accesstoken", data.access_token);
+                                    localStorage.setItem("refreshtoken", data.refresh_token);
+                                    localStorage.setItem("expiresin", data.expires_in);
+                                    location.href = 'facilitator.html';
+                                }
+                            }); 
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>
